@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 로고 -->
+    <ImageView
+        android:id="@+id/toiletLogo"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/fmtlog" />
+    <!-- 개발자 이름 -->
+    <TextView
+        android:id="@+id/developerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/toiletLogo"
+        android:layout_marginRight="10dp"
+        android:text="by 재성,민성"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/buttonLayout"
+        android:background="@drawable/press"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toiletImage"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageButton
+            android:id="@+id/enterToiletStateBtn"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:background="#00000000"
+            android:scaleType="fitXY"
+            android:src="@drawable/wc" />
+
+        <TextView
+            android:id="@+id/enterToiletStateBtnTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/enterToiletStateBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="화장실 상태 보기"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!--화장실 디자인 로고-->
+    <ImageView
+        android:id="@+id/toiletImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_above="@+id/copyRight"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/maintoilet" />
+
+
+    <TextView
+        android:id="@+id/copyRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginBottom="2dp"
+        android:gravity="center"
+        android:text="Copyright 2017. Find My Toilet Team. Gachon Univ.\nAll rights reserved."
+        android:textSize="12dp" />
+
+
+</RelativeLayout>

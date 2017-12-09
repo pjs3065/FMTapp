@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 현재 네트워크상태 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="현재 연결된 네트워크"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/connection_status_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg_ex"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="현재 화장실 사용여부"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/toileCountTiltle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용가능 수 :"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/toileCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/toileCountTiltle"
+            android:text="3개"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/toilet1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:text="1번화장실\n사용가능\n(예약가능)" />
+
+            <Button
+                android:id="@+id/toilet2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/toilet1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="2번화장실\n사용가능" />
+            />
+
+            <Button
+                android:id="@+id/toilet3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/toilet2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="3번화장실\n사용가능" />
+            />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

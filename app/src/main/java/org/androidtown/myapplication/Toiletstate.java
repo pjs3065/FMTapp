@@ -1,5 +1,15 @@
 package org.androidtown.myapplication;
 
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,100 +20,62 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+/**
+ * Created by 박재성 on 2017-12-09.
+ */
 
-public class MainActivity extends AppCompatActivity {
+public class Toiletstate extends AppCompatActivity {
 
+    //UI
     private TextView mConnectionStatus;
-    private EditText mInputEditText;
-    private ArrayAdapter<String> mConversationArrayAdapter;
+    private Button toilet1, toilet2, toilet3;
 
+    //TAG
     private static final String TAG = "TcpClient";
-    private boolean isConnected = false;
 
+    //연결 변수들
+    private boolean isConnected = false;
     private String mServerIP = null;
     private Socket mSocket;
     private PrintWriter mOut;
     private BufferedReader mIn;
     private Thread mReceiverThread = null;
 
-    public MainActivity() {
+    public Toiletstate() {
         mSocket = null;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.toilet_state);
 
         //연결되었다는 것을 나타내는 UI
         mConnectionStatus = (TextView) findViewById(R.id.connection_status_textview);
-        //에디트 텍스트
-        mInputEditText = (EditText) findViewById(R.id.input_string_edittext);
-        ListView mMessageListview = (ListView) findViewById(R.id.message_listview);
-        Button sendButton = (Button) findViewById(R.id.send_button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
+
+        //화장실 사용여부 확인 가능한 버튼들
+        toilet1 = (Button) findViewById(R.id.toilet1);
+        toilet2 = (Button) findViewById(R.id.toilet2);
+        toilet3 = (Button) findViewById(R.id.toilet3);
+
+        toilet1.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
+                String sendMessage = "1";
 
-                String sendMessage = mInputEditText.getText().toString();
-                //길이가 0보다 긴 값을 입력해야지 전송함.
-                if (sendMessage.length() > 0) {
-
-                    //연결이 되지 않으면
-                    if (!isConnected) showErrorDialog("서버로 접속된후 다시 해보세요.");
-                    else {
-                        //보내고 나서 EDIT 박스를 초기화 시켜준다.
-                        new Thread(new SenderThread(sendMessage)).start();
-                        mInputEditText.setText(" ");
-                    }
+                //연결이 되지 않으면
+                if (!isConnected) {
+                    showErrorDialog("서버로 접속된후 다시 해보세요.");
+                } else {
+                    //보내고 나서 EDIT 박스를 초기화 시켜준다.
+                    Toast.makeText(getApplicationContext(),"1번 화장실의 상태를 물어봅니다",Toast.LENGTH_SHORT).show();
+                    new Thread(new Toiletstate.SenderThread(sendMessage)).start();
                 }
+
             }
         });
 
-        mConversationArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        mMessageListview.setAdapter(mConversationArrayAdapter);
-
-        new Thread(new ConnectThread("192.168.35.221", 8090)).start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        isConnected = false;
-    }
-
-
-    private static long back_pressed;
-
-    @Override
-    public void onBackPressed() {
-
-        if (back_pressed + 2000 > System.currentTimeMillis()) {
-            super.onBackPressed();
-
-            Log.d(TAG, "onBackPressed:");
-            isConnected = false;
-
-            finish();
-        } else {
-            Toast.makeText(getBaseContext(), "한번 더 뒤로가기를 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-            back_pressed = System.currentTimeMillis();
-        }
-
+        new Thread(new Toiletstate.ConnectThread("192.168.35.221", 8090)).start();
     }
 
 
@@ -116,18 +88,16 @@ public class MainActivity extends AppCompatActivity {
             serverIP = ip;
             serverPort = port;
 
-            mConnectionStatus.setText("connecting to " + serverIP + ".......");
+            mConnectionStatus.setText("연결중(" + serverIP + ")");
         }
 
         @Override
         public void run() {
 
             try {
-
                 mSocket = new Socket(serverIP, serverPort);
                 //ReceiverThread: java.net.SocketTimeoutException: Read timed out 때문에 주석처리
                 //mSocket.setSoTimeout(3000);
-
                 mServerIP = mSocket.getRemoteSocketAddress().toString();
 
             } catch (UnknownHostException e) {
@@ -135,26 +105,21 @@ public class MainActivity extends AppCompatActivity {
             } catch (SocketTimeoutException e) {
                 Log.d(TAG, "ConnectThread: timeout");
             } catch (Exception e) {
-
                 Log.e(TAG, ("ConnectThread:" + e.getMessage()));
             }
 
 
             if (mSocket != null) {
-
                 try {
-
                     mOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(mSocket.getOutputStream(), "UTF-8")), true);
                     mIn = new BufferedReader(new InputStreamReader(mSocket.getInputStream(), "UTF-8"));
 
                     //연결이 되었을 경우 TRUE로 바꿔준다.
                     isConnected = true;
                 } catch (IOException e) {
-
                     Log.e(TAG, ("ConnectThread:" + e.getMessage()));
                 }
             }
-
 
             runOnUiThread(new Runnable() {
 
@@ -163,20 +128,20 @@ public class MainActivity extends AppCompatActivity {
 
                     if (isConnected) {
                         Log.d(TAG, "connected to " + serverIP);
-                        mConnectionStatus.setText("connected to " + serverIP);
+                        mConnectionStatus.setText("연결성공(" + serverIP +")");
 
-                        mReceiverThread = new Thread(new ReceiverThread());
+                        mReceiverThread = new Thread(new Toiletstate.ReceiverThread());
                         mReceiverThread.start();
                     } else {
                         Log.d(TAG, "failed to connect to server " + serverIP);
-                        mConnectionStatus.setText("failed to connect to server " + serverIP);
+                        mConnectionStatus.setText("연결실패(" + serverIP + ")");
                     }
                 }
             });
         }
     }
 
-
+    //보낸 메시지 처리
     private class SenderThread implements Runnable {
 
         private String msg;
@@ -195,24 +160,22 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Log.d(TAG, "send message: " + msg);
-                    mConversationArrayAdapter.insert("Me - " + msg, 0);
+                    Toast.makeText(getApplicationContext(),"보낸 명령어는 : " + msg,Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
-
+    //받는 메시지 처리
     private class ReceiverThread implements Runnable {
 
         @Override
         public void run() {
 
             try {
-
                 while (isConnected) {
 
                     if (mIn == null) {
-
                         Log.d(TAG, "ReceiverThread: mIn is null");
                         break;
                     }
@@ -220,14 +183,12 @@ public class MainActivity extends AppCompatActivity {
                     final String recvMessage = mIn.readLine();
 
                     if (recvMessage != null) {
-
                         runOnUiThread(new Runnable() {
 
                             @Override
                             public void run() {
-
                                 Log.d(TAG, "recv message: " + recvMessage);
-                                mConversationArrayAdapter.insert(mServerIP + " - " + recvMessage, 0);
+                                Toast.makeText(getApplicationContext(),"받은 명령어는 : " + recvMessage,Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -250,12 +211,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             } catch (IOException e) {
-
                 Log.e(TAG, "ReceiverThread: " + e);
             }
         }
     }
 
+    //엑티비티가 모두 종료 되었을경우
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        isConnected = false;
+    }
+
+
+    //에러 났을시 메시지를 띄어주고, 화면을 꺼준다.
     public void showErrorDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Error");
@@ -270,4 +240,5 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
+
 }
