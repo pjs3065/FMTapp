@@ -43,7 +43,7 @@ public class Toiletstate extends AppCompatActivity {
     private static final String TAG = "TcpClient";
 
     //ip 주소와 port번호
-    private String mServerIP = "192.168.35.167";
+    private String mServerIP = "192.168.35.42";
     private int mPort = 8090;
 
     //그외 연결 변수들
