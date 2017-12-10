@@ -26,7 +26,6 @@
     </LinearLayout>
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
@@ -36,9 +35,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg_ex"
             android:gravity="center"
-            android:padding="4dp"
+            android:padding="10dp"
             android:text="현재 화장실 사용여부"
-            android:textSize="30dp"
+            android:textSize="35dp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -46,23 +45,125 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/toileCountTiltle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/refresh"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
             android:text="사용가능 수 :"
             android:textSize="20dp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/refresh"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/toilet1linearLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/toilet1linearLayout"
+            android:text="화장실 정보 받아오기" />
 
         <TextView
             android:id="@+id/toileCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/toileCountTiltle"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/toileCountTiltle"
-            android:text="3개"
+            android:gravity="center"
+            android:text="2개"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:id="@+id/toilet1linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="80dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/toilet1Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="변기 이름 : 변기1"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/toilet1UseTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="사용시간 : 0분0초"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/reservation1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="예약하기"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/toilet2linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="260dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/toilet2Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="변기 이름 : 변기2"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/toilet2UseTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:text="사용시간 : 0분0초"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/reservation2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="예약하기"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:text="초록색 변기그림은 사용 가능\n빨간색 변기그림은 사용 불가능"
             android:textSize="20dp"
             android:textStyle="bold" />
 
@@ -70,35 +171,29 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="70dp"
             android:orientation="vertical">
 
-            <Button
+            <ImageView
                 android:id="@+id/toilet1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/possible"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/toilet"
                 android:text="1번화장실\n사용가능\n(예약가능)" />
 
-            <Button
+            <ImageView
                 android:id="@+id/toilet2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_below="@+id/toilet1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/possible"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/toilet"
                 android:text="2번화장실\n사용가능" />
-            />
-
-            <Button
-                android:id="@+id/toilet3"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_below="@+id/toilet2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="3번화장실\n사용가능" />
             />
         </LinearLayout>
     </RelativeLayout>
