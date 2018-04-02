@@ -43,7 +43,7 @@ public class Toiletstate extends AppCompatActivity {
     private static final String TAG = "TcpClient";
 
     //ip 주소와 port번호
-    private String mServerIP = "192.168.35.226";
+    private String mServerIP = "172.20.10.2";
 
 
     private int mPort = 8090;
@@ -75,11 +75,11 @@ public class Toiletstate extends AppCompatActivity {
     private TextView toilet1UseTime;
     private TextView toilet2UseTime;
 
-    private  int value = 0;
-    private  int value2 = 0;
+    private static int value = 0;
+    private static int value2 = 0;
 
-    private  boolean ischecked1 = false;
-    private  boolean ischecked2 = false;
+    private boolean ischecked1 = false;
+    private boolean ischecked2 = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -196,13 +196,12 @@ public class Toiletstate extends AppCompatActivity {
         public void handleMessage(Message msg) {
             if (ischecked1 == true) {
                 value++;
-                toilet1UseTime.setText("사용시간 : " + value/60 + "분" + value % 60 + "초");
+                toilet1UseTime.setText("사용시간 : " + value / 60 + "분" + value % 60 + "초");
                 //1초간의 지연 시간을 두어 1초후에 자기자신이 호출 되도록 한다.
                 thandler.sendEmptyMessageDelayed(0, 1000);
-            }
-            else
-            {
-                toilet1UseTime.setText("사용시간 : " + value/60 + "분" + value % 60 + "초");
+            } else {
+                value = 0;
+                toilet1UseTime.setText("사용시간 : " + value / 60 + "분" + value % 60 + "초");
             }
         }
     };
@@ -211,12 +210,12 @@ public class Toiletstate extends AppCompatActivity {
         public void handleMessage(Message msg) {
             if (ischecked2 == true) {
                 value2++;
-                toilet2UseTime.setText("사용시간 : " + value2/60 + "분" + value2 % 60 + "초");
+                toilet2UseTime.setText("사용시간 : " + value2 / 60 + "분" + value2 % 60 + "초");
                 //1초간의 지연 시간을 두어 1초후에 자기자신이 호출 되도록 한다.
                 thandler2.sendEmptyMessageDelayed(0, 1000);
-            }
-            else
-                toilet2UseTime.setText("사용시간 : " + value2/60 + "분" + value2 % 60 + "초");
+            } else
+                value2 = 0;
+                toilet2UseTime.setText("사용시간 : " + value2 / 60 + "분" + value2 % 60 + "초");
         }
     };
 
@@ -336,10 +335,8 @@ public class Toiletstate extends AppCompatActivity {
                                     value = 0;
                                     ischecked1 = false;
                                 } else if (recvMessage.equals("t1off")) {
-                                    if (t1 == 11) {
-                                        ischecked1 = true;
-                                        thandler.sendEmptyMessage(0);
-                                    }
+                                    ischecked1 = true;
+                                    thandler.sendEmptyMessage(0);
                                     t1 = 10;
                                 }
 
@@ -349,10 +346,8 @@ public class Toiletstate extends AppCompatActivity {
                                     value2 = 0;
                                     ischecked2 = false;
                                 } else if (recvMessage.equals("t2off")) {
-                                    if (t2 == 21) {
-                                        ischecked2 = true;
-                                        thandler2.sendEmptyMessage(0);
-                                    }
+                                    ischecked2 = true;
+                                    thandler2.sendEmptyMessage(0);
                                     t2 = 20;
                                 }
 
